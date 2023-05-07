@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebChat</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/default.css"/>
+
+    <script type="text/javascript">
+        let wsocket;
+        let userName;
+        let textarea;
+        let wsconsole;
+        let userlist;
+
+        const submitJoin = () => {
+            let input = document.getElementById("input");
+            let name = document.getElementById("name");
+            let join = document.getElementById("join");
+            if (name.value.length <= 0)
+                return;
+
+            let message = {};
+            message.userName = name.value;
+            message.type = 'join';
+            let messageJson = JSON.stringify(message);
+            wsocket.send(messageJson);
+
+            name.disabled = true;
+            join.disabled = true;
+            input.disabled = false;
+            userName = name.value;
+
+        };
+        const sendMessage = event => {
+            let input = document.getElementById("input");
+            if (event.key === 'Enter' && input.value.length > 0) {
+                let message = {};
+                message.userName = userName;
+                message.type = 'chat';
+                message.body = input.value;
+                let messageJson = JSON.stringify(message);
+                wsocket.send(messageJson);
+                input.value = "";
+            }
+        };
+
+        function onMessage(evt) {
+            let line = "";
+            let message = JSON.parse(evt.data);
+
+            if (message.type === "chat") {
+                line = `${message.userName} : ${message.body} \n`;
+                textarea.value += "" + line;
+
+            } else if (message.type === "info") {
+                line = `[-- ${message.body} --] \n`;
+                textarea.value += "" + line;
+
+            } else if (message.type === "users") {
+                line = "Users:\n";
+                message.body.split(", ").forEach(user => line += `- ${user}\n`)
+                userlist.value = line;
+            }
+        }
+
+        function connect() {
+            textarea = document.getElementById("textarea");
+            // wsconsole = document.getElementById("wsconsole");
+            userlist = document.getElementById("userlist");
+            wsocket = new WebSocket("ws://localhost:8080/jakartaee-websocket-1.0-SNAPSHOT/webchat");
+            wsocket.onmessage = onMessage;
+            document.getElementById("name").focus();
+            document.getElementById("join").onclick = submitJoin;
+            document.getElementById("input").onkeyup = sendMessage;
+        }
+
+        window.addEventListener("load", connect, false);
+    </script>
+</head>
+<body>
+
+    <h1>Web Chat</h1>
+
+    <label for="name">Your name:</label>
+    <input id="name" type="text" size="20" maxlength="20"/>
+    <input id="join" type="submit" value="Join!"/><br/>
+
+    <label for="input">Escribe tu mensaje: </label>
+    <textarea id="input" cols="70" rows="1" disabled></textarea><br/>
+
+    <label for="textarea">Mensajes en el chat: </label>
+    <textarea id="textarea" cols="70" rows="20" readonly></textarea>
+
+    <label for="userlist">Listado de usuarios</label>
+    <textarea id="userlist" cols="20" rows="20" readonly></textarea>
+
+</body>
+</html>

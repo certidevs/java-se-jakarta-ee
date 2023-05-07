@@ -1,0 +1,4 @@
+module two {
+    requires one;
+
+}

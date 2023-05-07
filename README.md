@@ -1,0 +1,35 @@
+
+# Formaciones Java SE y Jakarta EE
+
+- Cómo elegir el mejor JDK
+- Programación funcional 1: interfaces funcionales y lambdas
+- Programación funcional 2: métodos de referencia
+- Programación funcional 3: API Stream
+- Programación funcional 4: API Optional
+- Colecciones y Genéricos
+- API java.time
+- Entrada y salida IO / NIO
+- Nuevas funcionalidades después de java 8
+- Estructuras de datos
+- Concurrencia
+- Colecciones concurrentes
+- Modularización con Java Jigsaw
+- Networking con la API java.net
+- JavaFX
+- Clean code
+- Principios SOLID
+- Testing avanzado con JUnit
+- Recursión
+- Programación funcional avanzada
+- Concurrencia avanzada
+- Paralelización
+- Frameworks de logging para Java
+- Jakarta EE: introducción a las APIS de Jakarta EE
+- Jakarta EE: lógica de negocio con CDI y EJB
+- Jakarta EE: persistencia con JPA e Hibernate
+- Jakarta EE: transacciones JTA
+- Jakarta EE: servicios web XML con JAX-WS
+- Jakarta EE: Websockets
+- Jakarta EE: seguridad
+- Jakarta EE: despliegue 
+- Jakarta EE: mejora del rendimiento
